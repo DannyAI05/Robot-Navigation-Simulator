@@ -294,7 +294,7 @@ private final ImageIcon danceIcon = robotIcon;
             switch(e.getKeyCode()){
 
                 case java.awt.event.KeyEvent.VK_W -> {
-                    robot.moveForward();
+                    robot.moveForward(gameMap);
                     refreshMap();
                 }
 
@@ -573,14 +573,58 @@ else{
     autoButton.addActionListener(e -> {
 
     java.util.List<Point> path =
-            pathFinder.findPath(
-                    robot.getX(),
-                    robot.getY(),
-                    gameMap.getTargetX(),
-                    gameMap.getTargetY()
-            );
+        pathFinder.findPath(
+                robot.getX(),
+                robot.getY(),
+                gameMap.getTargetX(),
+                gameMap.getTargetY()
+        );
 
-    System.out.println(path);
+if(path.isEmpty()){
+
+    JOptionPane.showMessageDialog(
+            this,
+            "No path found!"
+    );
+    return;
+
+
+}
+
+     final int[] index = {1};
+
+Timer timer = new Timer(400,null);
+
+timer.addActionListener(e2 -> {
+
+    if(index[0] >= path.size()){
+
+        ((Timer)e2.getSource()).stop();
+
+        JOptionPane.showMessageDialog(
+                this,
+                "🏆 Mission Complete!"
+        );
+
+        return;
+
+    }
+
+    Point next = path.get(index[0]);
+
+    robot.faceDirection(next.x,next.y);
+
+    robot.setPosition(next.x,next.y);
+
+    refreshMap();
+
+    updateStatusPanel();
+
+    index[0]++;
+
+});
+
+timer.start();
 
 });
     
