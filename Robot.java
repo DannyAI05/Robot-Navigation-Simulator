@@ -214,6 +214,48 @@ public class Robot{
         
 
 }
+    
+    //POSITION METHOD
+    public void setPosition(int x, int y){
+
+    this.x = x;
+    this.y = y;
+
+    battery -= 2;
+    moves++;
+    status = "Autonomous Navigation";
+
+}
+    
+    public void faceDirection(int newX, int newY){
+
+    if(newX > x){
+
+        direction = "East";
+
+    }
+
+    else if(newX < x){
+
+        direction = "West";
+
+    }
+
+    else if(newY > y){
+
+        direction = "South";
+
+    }
+
+    else if(newY < y){
+
+        direction = "North";
+
+    }
+
+}
+    
+    
     //CONSTRUCTOR
     public Robot(String name){
         
